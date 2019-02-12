@@ -43,7 +43,8 @@ expression.
 ......................................................................*)
 
 let add_point_pair (p1 : point_pair) (p2 : point_pair) : point_pair =
-  failwith "add_point_pair not impemented" ;;
+    let (x1, y1), (x2, y2) = p1, p2 in
+    (x1+x2, y1+y2);;
 
 (* Analogously, we can define a point by using a record to package up
 the x and y coordinates. *)
@@ -57,8 +58,9 @@ Implement a function add_point_recd to add two points of type
 point_recd and returning a point _rec as well.
 ......................................................................*)
 
-let add_point_recd =
-  fun _ -> failwith "add_point_recd not implemented" ;;
+let add_point_recd (p1 : point_recd) (p2 : point_recd) : point_recd =
+    match p1, p2 with
+    | {x = x1; y = y1}, {x = x2; y = y2} -> {x = x1 + x2 ; y = y1 + y2};;
 
 (* Recall the dot product from Lab 2. The dot product of two points
 (x1, y1) and (x2, y2) is the sum of the products of their x and y
@@ -201,8 +203,10 @@ worry about explicitly handling the anomalous case when the two lists
 are of different lengths.)
 ......................................................................*)
 
-let zip =
-  fun _ -> failwith "zip not implemented" ;;
+let rec zip (x : 'a list) (y : 'b list) : ('a * 'b) list =
+  match x, y with
+  | [], [] -> []
+  | xhd :: xtl, yhd :: ytl -> (xhd, yhd) :: (zip xtl ytl) ;;
 
 (*......................................................................
 Exercise 11: Partitioning a list -- Given a boolean function, say
@@ -229,8 +233,10 @@ should be as polymorphic as possible?
 Now write the function.
 ......................................................................*)
    
-let partition =
-  fun _ -> failwith "partition not implemented" ;;
+let partition (f : 'a -> bool) (lst : 'a list): ('a list * 'a list)=
+  match lst with
+  | [] -> ([],[])
+  | hd :: tl -> if f hd = true then (hd :: fst (partition f tl), snd (partition f tl)) else (fst (partition f tl), hd :: snd (partition f tl));;
 
 (*......................................................................
 Exercise 12: We can think of function application itself as a
